@@ -1,5 +1,10 @@
-# In this file put the variables related to the deployment
-variable "variable_name" {
-    type = "type",
-    description = "Description"
+variable "name" {
+  type        = string
+  description = "app name"
+}
+
+
+variable "environment" {
+  type        = string
+  description = "can be devel or stage"
 }

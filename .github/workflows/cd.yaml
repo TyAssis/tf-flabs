@@ -1,0 +1,60 @@
+name: CD Pipeline
+
+on: 
+  pull_request:
+    branches:
+      - devel
+      - stage
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '15.5.1'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: |
+          terraform -backend-config="backend/${{ github.ref_name }}.hcl"
+
+      - name: Terraform Apply
+        working-directory: terraform
+        id: apply
+        run: terraform apply --auto-approve -input=false -var-file="environment/${{ github.ref_name }}.tfvars"
+
+      - name: Terraform Output
+        working-directory: terraform
+        id: output
+        run: |
+          echo "bucket=(terraform output -raw bucket_name)" >> "$GITHUB_OUTPUT"
+
+      - name: Sync to S3
+        run: |
+          aws sync build/ "s3://${{ steps.output.outputs.bucket }}" --delete
