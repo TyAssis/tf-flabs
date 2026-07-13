@@ -12,7 +12,7 @@ resource "aws_s3_bucket_public_access_block" "site" {
 }
 
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
-  bucket = aws_s3_bucket.example.id
+  bucket = aws_s3_bucket.site.id
   policy = data.aws_iam_policy_document.origin_bucket_policy.json
 }
 
