@@ -17,12 +17,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: debug
-        run: |
-          echo "${{ github.ref_name }}"
-          echo "${{ github.head_ref }}"
-          echo "${{ github.base_ref }}"
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -48,12 +42,12 @@ jobs:
       - name: Terraform Init
         working-directory: terraform
         run: |
-          terraform -backend-config="backend/${{ github.ref_name }}.hcl"
+          terraform -backend-config="backend/${{ github.base_ref }}.hcl"
 
       - name: Terraform Apply
         working-directory: terraform
         id: apply
-        run: terraform apply --auto-approve -input=false -var-file="environment/${{ github.ref_name }}.tfvars"
+        run: terraform apply --auto-approve -input=false -var-file="environment/${{ github.base_ref }}.tfvars"
 
       - name: Terraform Output
         working-directory: terraform
