@@ -42,7 +42,7 @@ jobs:
       - name: Terraform Init
         working-directory: terraform
         run: |
-          terraform -backend-config="backend/${{ github.base_ref }}.hcl"
+          terraform init -backend-config="backend/${{ github.base_ref }}.hcl"
 
       - name: Terraform Apply
         working-directory: terraform
