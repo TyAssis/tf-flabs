@@ -1,2 +1,2 @@
-name        = devel
-environment = devel
+name        = "devel"
+environment = "devel"

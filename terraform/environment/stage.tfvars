@@ -1,2 +1,2 @@
-name        = stage
-environment = stage
+name        = "stage"
+environment = "stage"
