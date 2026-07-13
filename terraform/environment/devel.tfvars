@@ -1,2 +1,2 @@
-name = devel
-name = devel
+name        = devel
+environment = devel
