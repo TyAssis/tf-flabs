@@ -39,7 +39,7 @@ jobs:
         with:
           terraform_wrapper: false
 
-      - name: Terraform Init
+      - name: Terraform Isnit
         working-directory: terraform
         run: |
           terraform init -backend-config="backend/${{ github.base_ref }}.hcl"
