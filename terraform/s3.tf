@@ -15,7 +15,7 @@ resource "aws_s3_bucket_public_access_block" "site" {
 ## AWS S3 logs bucket
 
 resource "aws_s3_bucket" "logs" {
-  bucket = local.app_name
+  bucket = "${local.app_name}-logs"
 }
 
 resource "aws_s3_bucket_public_access_block" "logs" {
