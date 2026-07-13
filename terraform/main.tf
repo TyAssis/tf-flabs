@@ -1,9 +1,3 @@
-# In this file put all the logic to crete the proper infraestructure
-terraform {
-    required_providers {
-        # Add the provideres according to the challenges
-    }
+locals {
+  app_name = "${var.name}-${var.environment}"
 }
-
-
-# Add the resources relatedo to the provider
