@@ -1,0 +1,2 @@
+name        = stage
+environment = stage
