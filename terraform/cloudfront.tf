@@ -34,6 +34,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     bucket = aws_s3_bucket.logs.id
     prefix = local.app_name
   }
+
+  depends_on = [aws_s3_bucket.logs, aws_s3_bucket.site]
 }
 
 resource "aws_cloudfront_origin_access_control" "site" {
